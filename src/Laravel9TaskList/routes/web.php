@@ -32,3 +32,7 @@ Route::post('/folders/create', [FolderController::class,"create"]);
 /* tasks new create page */
 Route::get('/folders/{id}/tasks/create', [TaskController::class,"showCreateForm"])->name('tasks.create');
 Route::post('/folders/{id}/tasks/create', [TaskController::class,"create"]);
+
+/* folders new edit page */
+Route::get('/folders/{id}/edit', [FolderController::class,"showEditForm"])->name('folders.edit');
+Route::post('/folders/{id}/edit', [FolderController::class,"edit"]);

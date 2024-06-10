@@ -52,4 +52,20 @@ class FolderController extends Controller
             'id' => $folder->id,
         ]);
     }
+    /**
+     *  【フォルダ編集ページの表示機能】
+     *
+     *  GET /folders/{id}/edit
+     *  @param int $id
+     *  @return \Illuminate\View\View
+     */
+    public function showEditForm(int $id)
+    {
+        $folder = Folder::find($id);
+
+        return view('folders/edit', [
+            'folder_id' => $folder->id,
+            'folder_title' => $folder->title,
+        ]);
+    }
 }
