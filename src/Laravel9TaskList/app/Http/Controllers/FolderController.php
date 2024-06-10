@@ -9,6 +9,8 @@ use App\Models\Folder;
 // FormRequestクラスを名前空間でインポートする
 use App\Http\Requests\CreateFolder;
 
+use App\Http\Requests\EditFolder;
+
 class FolderController extends Controller
 {
     /**
@@ -66,6 +68,25 @@ class FolderController extends Controller
         return view('folders/edit', [
             'folder_id' => $folder->id,
             'folder_title' => $folder->title,
+        ]);
+    }
+    /**
+     *  【フォルダの編集機能】
+     *
+     *  POST /folders/{id}/edit
+     *  @param int $id
+     *  @param EditTask $request
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(int $id, EditFolder $request)
+    {
+        $folder = Folder::find($id);
+
+        $folder->title = $request->title;
+        $folder->save();
+
+        return redirect()->route('tasks.index', [
+            'id' => $folder->id,
         ]);
     }
 }
