@@ -9,6 +9,8 @@ use App\Models\Task;
 
 use App\Http\Requests\CreateTask;
 
+use App\Http\Requests\EditTask;
+
 class TaskController extends Controller
 {
     /**
@@ -92,6 +94,49 @@ class TaskController extends Controller
         // route():ルートPathを指定する関数
         return redirect()->route('tasks.index', [
             'id' => $folder->id,
+        ]);
+    }
+
+        /**
+     *  【タスク編集ページの表示機能】
+     *  機能：タスクIDをフォルダ編集ページに渡して表示する
+     *  
+     *  GET /folders/{id}/tasks/{task_id}/edit
+     *  @param int $id
+     *  @param int $task_id
+     *  @return \Illuminate\View\View
+     */
+    public function showEditForm(int $id, int $task_id)
+    {
+        $task = Task::find($task_id);
+
+        return view('tasks/edit', [
+            'task' => $task,
+        ]);
+    }
+
+
+      /**
+     *  【タスクの編集機能】
+     *  機能：タスクが編集されたらDBを更新処理をしてタスク一覧にリダイレクトする
+     *  
+     *  POST /folders/{id}/tasks/{task_id}/edit
+     *  @param int $id
+     *  @param int $task_id
+     *  @param EditTask $request
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(int $id, int $task_id, EditTask $request)
+    {
+        $task = Task::find($task_id);
+
+        $task->title = $request->title;
+        $task->status = $request->status;
+        $task->due_date = $request->due_date;
+        $task->save();
+
+        return redirect()->route('tasks.index', [
+            'id' => $task->folder_id,
         ]);
     }
 
