@@ -20,7 +20,7 @@
                 <nav class="panel panel-default">
                     <div class="panel-heading">フォルダ</div>
                     <div class="panel-body">
-                        <a href="#" class="btn btn-default btn-block">
+                        <a href="{{ route('folders.create') }}" class="btn btn-default btn-block">
                             フォルダを追加する
                         </a>
                     </div>
@@ -87,9 +87,7 @@
                                         <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
                                     </td>
                                     <!-- タスクの期限を表示する -->
-                                    <td>{{ $task->formatted_due_date }}
-
-                                    </td>
+                                    <td>{{ $task->formatted_due_date }} </td>
                                     <!-- 編集と削除のリンクを表示する -->
                                     <td><a href="#">編集</a></td>
                                     <td><a href="#">削除</a></td>
