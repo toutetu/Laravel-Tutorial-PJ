@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+        // テーブル名を明示的に指定する
+        protected $table = 'users';
+        // [中略]
+        /*
+        * ユーザークラスの関係性を辿ってフォルダークラスのリストを取得する
+        *
+        * @return \Illuminate\Database\Eloquent\Relations\HasMany
+        */
+        public function folders()
+        {
+            return $this->hasMany('App\Models\Folder');
+        }
 }

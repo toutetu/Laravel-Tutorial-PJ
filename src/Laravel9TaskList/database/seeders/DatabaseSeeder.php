@@ -22,7 +22,16 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // runメソッド内に追加する
+        // $this->call(TasksTableSeeder::class);
+
+        // runメソッド内に追加して順番を入れ替える
+        $this->call(UsersTableSeeder::class);
+        $this->call(FoldersTableSeeder::class);
         $this->call(TasksTableSeeder::class);
+
+
+
+
     }
 
 }
