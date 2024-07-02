@@ -1,83 +1,68 @@
-# version: '3'
+version: '3'
 services:
   db:
     image: mysql:5.7.36
     container_name: "mysql_test"
     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: mysql_test_db
-        MYSQL_USER: admin
-        MYSQL_PASSWORD: secret
-        TZ: 'Asia/Tokyo'
-    # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql_test_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: secret
+      TZ: 'Asia/Tokyo'
     ports:
-        - 3307:3306
-    # コマンドの指定
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    # 名前付きボリュームを設定する（名前付きボリューム:コンテナ側ボリュームの場所）
+      - 3308:3306  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  # コマンドの指定
     volumes:
-      - db_data_test:/var/lib/mysql
+      - db_data_test:/var/lib/mysql  # 名前付きボリュームを設定する（名前付きボリューム:コンテナ側ボリュームの場所）
       - db_my.cnf_test:/etc/mysql/conf.d/my.cnf
       - db_sql_test:/docker-entrypoint-initdb.d
 
   php:
     build: ./docker/php
     container_name: "php-fpm"
-    # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
     volumes:
-      - ./src:/var/www
+      - ./src:/var/www  # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
 
   nginx:
     image: nginx:latest
     container_name: "nginx_test"
-    # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     ports:
-      - 80:80
-    # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
+      - 80:80  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     volumes:
-      - ./src:/var/www
+      - ./src:/var/www  # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    # サービスの依存関係を指定（nginxをphpに依存させる）
     depends_on:
-      - php
+      - php  # サービスの依存関係を指定（nginxをphpに依存させる）
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: "phpmyadmin_test"
     environment:
-      - PMA_ARBITRARY=1 # サーバ設定：サーバーをローカル以外も指定
-      - PMA_HOST=db # ホスト設定：dbを指定
-      - PMA_USER=admin # 初期ユーザー設定：adminを指定
-      - PMA_PASSWORD=secret # 初期PW設定：secretを指定
-    # db（サービス名）とのリンクを設定する
+      - PMA_ARBITRARY=1  # サーバ設定：サーバーをローカル以外も指定
+      - PMA_HOST=db  # ホスト設定：dbを指定
+      - PMA_USER=admin  # 初期ユーザー設定：adminを指定
+      - PMA_PASSWORD=secret  # 初期PW設定：secretを指定
     links:
-      - db
-    # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
+      - db  # db（サービス名）とのリンクを設定する
     ports:
-      - 8080:80
-    # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
+      - 8080:80  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     volumes:
-      - ./phpmyadmin/sessions:/sessions
+      - ./phpmyadmin/sessions:/sessions  # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
 
   node:
     image: node:14.18-alpine
     container_name: "node14.18-alpine"
-    # コンテナ内の標準出力とホストの出力を設定：trueを指定
-    tty: true
-    # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
+    tty: true  # コンテナ内の標準出力とホストの出力を設定：trueを指定
     volumes:
-      - ./src:/var/www
-    # コンテナ起動後のカレントディレクトリを設定
-    working_dir: /var/www
+      - ./src:/var/www  # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
+    working_dir: /var/www  # コンテナ起動後のカレントディレクトリを設定
 
   mail:
     image: mailhog/mailhog
     container_name: "mailhog"
-    # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     ports:
-      - 8025:8025
+      - 8025:8025  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
 
-# サービスレベルで名前付きボリュームを命名する
 volumes:
   db_data_test:
   db_my.cnf_test:
