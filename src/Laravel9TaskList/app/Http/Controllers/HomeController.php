@@ -24,6 +24,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    /**
+     * ホームページを表示する
+     *
+     * GET /
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+
     public function index()
     {
           /** @var App\Models\User **/
@@ -36,7 +43,8 @@ class HomeController extends Controller
           }
   
           return redirect()->route('tasks.index', [
-              'id' => $folder->id,
+            //   'id' => $folder->id,
+            'folder' => $folder->id,
           ]);
     }
 }
