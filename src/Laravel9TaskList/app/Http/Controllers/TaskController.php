@@ -14,6 +14,8 @@ use App\Http\Requests\EditTask;
 // Authクラスをインポートする
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Log;
+
 class TaskController extends Controller
 {
     // /**
@@ -35,6 +37,20 @@ class TaskController extends Controller
 
     public function index(Folder $folder)
     {
+
+                // // id と user_id をコンソールに表示
+                // dump('Auth user id: ' . Auth::user()->id);
+                // dump('Folder user id: ' . $folder->user_id);
+        
+                // /* 権限がないコンテンツを403エラーで返す */
+                // if (Auth::user()->id !== $folder->user_id) {
+                    
+        
+                //     abort(403);
+                // }
+
+
+
         // /* Folderモデルの全てのデータをDBから取得する */
         // // all()：全てのデータを取得する関数
 
@@ -253,21 +269,21 @@ class TaskController extends Controller
     public function delete(Folder $folder, Task $task)
     {
 
-         /** @var App\Models\User **/
-         $user = Auth::user();
-        //  $folder = $user->folders()->findOrFail($id);
-        $folder = $user->folders()->findOrFail($folder->id);
+                /** @var App\Models\User **/
+                $user = Auth::user();
+                //  $folder = $user->folders()->findOrFail($id);
+                $folder = $user->folders()->findOrFail($folder->id);
+                
+                // $task = Task::find($task_id);
+                //  $task = $folder->tasks()->findOrFail($task_id);
+                $task = $folder->tasks()->findOrFail($task->id);
         
-         // $task = Task::find($task_id);
-        //  $task = $folder->tasks()->findOrFail($task_id);
-        $task = $folder->tasks()->findOrFail($task->id);
- 
 
-        $task->delete();
+                $task->delete();
 
-        return redirect()->route('tasks.index', [
-            // 'id' => $id
-            'folder' => $task->folder_id
-        ]);
+                return redirect()->route('tasks.index', [
+                    // 'id' => $id
+                    'folder' => $task->folder_id
+                ]);
     }
 }
