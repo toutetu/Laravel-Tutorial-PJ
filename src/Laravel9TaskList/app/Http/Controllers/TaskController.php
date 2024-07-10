@@ -168,7 +168,14 @@ class TaskController extends Controller
     // public function showEditForm(int $id, int $task_id)
     public function showEditForm(Folder $folder, Task $task)
     {
-        
+                // /* フォルダとタスクのリレーションを確認する */
+                // if ($folder->id !== $task->folder_id) {
+                //     abort(404);
+                // }
+
+                // フォルダーとタスクのリレーション（関連性）をチェックする
+                $this->checkRelation($folder, $task);   
+
                 /** @var App\Models\User **/
                 $user = Auth::user();
                 // $folder = $user->folders()->findOrFail($id);
@@ -177,6 +184,8 @@ class TaskController extends Controller
                 // $task = Task::find($task_id);
                 // $task = $folder->find($task_id);
                 // $task = $folder->tasks()->findOrFail($task_id);
+                // $task = $folder->tasks()->findOrFail($task->id);
+                // $task->find($task->id);
                 $task = $folder->tasks()->findOrFail($task->id);
 
         return view('tasks/edit', [
@@ -203,6 +212,14 @@ class TaskController extends Controller
      // public function edit(int $id, int $task_id, EditTask $request)
     public function edit(Folder $folder, Task $task, EditTask $request)
     {
+                // /* フォルダとタスクのリレーションを確認する */
+                // if ($folder->id !== $task->folder_id) {
+                //     abort(404);
+                // }
+
+                // フォルダーとタスクのリレーション（関連性）をチェックする
+                $this->checkRelation($folder, $task);   
+
                 /** @var App\Models\User **/
                 $user = Auth::user();
                 // $folder = $user->folders()->findOrFail($id);
@@ -212,6 +229,8 @@ class TaskController extends Controller
                 // $task = Task::find($task_id);
                 // $task = $folder->find($task_id);
                 // $task = $folder->tasks()->findOrFail($task_id);
+                // $task = $folder->tasks()->findOrFail($task->id);
+                // $task->find($task->id);
                 $task = $folder->tasks()->findOrFail($task->id);
 
         $task->title = $request->title;
@@ -239,6 +258,9 @@ class TaskController extends Controller
     // public function showDeleteForm(int $id, int $task_id)
     public function showDeleteForm(Folder $folder, Task $task)
     {
+
+        // フォルダーとタスクのリレーション（関連性）をチェックする
+        $this->checkRelation($folder, $task);
 
         /** @var App\Models\User **/
         $user = Auth::user();
@@ -269,6 +291,9 @@ class TaskController extends Controller
     public function delete(Folder $folder, Task $task)
     {
 
+                // フォルダーとタスクのリレーション（関連性）をチェックする
+                $this->checkRelation($folder, $task);
+        
                 /** @var App\Models\User **/
                 $user = Auth::user();
                 //  $folder = $user->folders()->findOrFail($id);
@@ -285,5 +310,12 @@ class TaskController extends Controller
                     // 'id' => $id
                     'folder' => $task->folder_id
                 ]);
+    }
+
+    private function checkRelation(Folder $folder, Task $task)
+    {
+        if ($folder->id !== $task->folder_id) {
+            abort(404);
+        }
     }
 }
