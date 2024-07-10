@@ -190,8 +190,8 @@ class TaskController extends Controller
                 /** @var App\Models\User **/
                 $user = Auth::user();
                 // $folder = $user->folders()->findOrFail($id);
-                // $folder = $user->folders()->findOrFail($folder->id);
-                $task = $folder->tasks()->findOrFail($task->id);
+                $folder = $user->folders()->findOrFail($folder->id);
+                
                 
                 // $task = Task::find($task_id);
                 // $task = $folder->find($task_id);
