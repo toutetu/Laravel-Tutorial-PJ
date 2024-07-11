@@ -33,18 +33,22 @@ class HomeController extends Controller
 
     public function index()
     {
-          /** @var App\Models\User **/
-          $user = Auth::user();
+        try {
+            /** @var App\Models\User **/
+            $user = Auth::user();
 
-          $folder = $user->folders()->first();
-  
-          if (is_null($folder)) {
-              return view('home');
-          }
-  
-          return redirect()->route('tasks.index', [
-            //   'id' => $folder->id,
-            'folder' => $folder->id,
-          ]);
+            $folder = $user->folders()->first();
+    
+            if (is_null($folder)) {
+                return view('home');
+            }
+    
+            return redirect()->route('tasks.index', [
+                //   'id' => $folder->id,
+                'folder' => $folder->id,
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Error HomeController in index: ' . $e->getMessage());
+        }
     }
 }
