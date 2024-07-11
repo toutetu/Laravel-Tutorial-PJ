@@ -42,32 +42,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
 
-        $user = DB::table('users')->skip(1)->first();
-
-        $titles = ['サンプルフォルダ01（test2）', 'サンプルフォルダ02（test2）', 'サンプルフォルダ03（test2）'];
-    
-        foreach ($titles as $title) {
-            DB::table('folders')->insert([
-                'title' => $title,
-                'user_id' => $user->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }
 
 
-        $user = DB::table('users')->where('id', 2)->first();
-        $folder = DB::table('folders')->where('user_id', $user->id)->first();
-
-        foreach (range(1, 3) as $num) {
-            DB::table('tasks')->insert([
-                'folder_id' => $folder->id,
-                'title' => "サンプルタスク {$num}（test2）",
-                'status' => $num,
-                'due_date' => Carbon::now()->addDay($num),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }
+   
     }
 }
