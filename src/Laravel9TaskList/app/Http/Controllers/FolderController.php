@@ -136,17 +136,17 @@ class FolderController extends Controller
             $folder = $user->folders()->findOrFail($folder->id);
             // $folder = Folder::find($id);
 
-            // $folder->title = $request->title;
-            // $folder->save();
+            $folder->title = $request->title;
+            $folder->save();
 
-            $folder = DB::transaction(function () use ($folder) {
-                if($folder) throw new \Exception('500');
-                $folder->tasks()->delete();
-                $folder->delete();
-                return $folder;
-            });
+            // $folder = DB::transaction(function () use ($folder) {
+            //     if($folder) throw new \Exception('500');
+            //     $folder->tasks()->delete();
+            //     $folder->delete();
+            //     return $folder;
+            // });
 
-            $folder = Folder::first();
+            // $folder = Folder::first();
 
             return redirect()->route('tasks.index', [
                 // 'id' => $folder->id,
@@ -170,17 +170,20 @@ class FolderController extends Controller
     // public function showDeleteForm(int $id)
     public function showDeleteForm(Folder $folder)
     {
-        
-        /** @var App\Models\User **/
-        $user = Auth::user();
-        // $folder = Folder::find($id);
-        // $folder = $user->folders()->findOrFail($id);
-        $folder = $user->folders()->findOrFail($folder->id);
+        try {
+                /** @var App\Models\User **/
+                $user = Auth::user();
+                // $folder = Folder::find($id);
+                // $folder = $user->folders()->findOrFail($id);
+                $folder = $user->folders()->findOrFail($folder->id);
 
-        return view('folders/delete', [
-            'folder_id' => $folder->id,
-            'folder_title' => $folder->title,
-        ]);
+                return view('folders/delete', [
+                    'folder_id' => $folder->id,
+                    'folder_title' => $folder->title,
+                ]);
+        } catch (\Throwable $e) {
+            Log::error('Error in showDeleteForm: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -204,11 +207,11 @@ class FolderController extends Controller
             $folder = $user->folders()->findOrFail($folder->id);
 
             $folder = DB::transaction(function () use ($folder) {
-                if($folder) throw new \Exception('500');
-
-                        $folder->tasks()->delete();
-                        $folder->delete();
-                        return $folder;
+                // Log::info($folder);
+                // if($folder) throw new \Exception('500');
+                $folder->tasks()->delete();
+                $folder->delete();
+                return $folder;
             });
 
             $folder = Folder::first();
