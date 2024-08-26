@@ -10,6 +10,8 @@ use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\LogController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -118,8 +120,13 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/folders/{folder}/tasks/{task}/delete', [TaskController::class,"showDeleteForm"])->name('tasks.delete');
         // Route::post('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"delete"]);
         Route::post('/folders/{folder}/tasks/{task}/delete', [TaskController::class,"delete"]);
+
+        
     });
+    
+    Route::get('/logs/work', [LogController::class, 'showWorkLog'])->name('logs.work');
 });
 
     /* certification page （会員登録・ログイン・ログアウト・パスワード再設定など） */
     Auth::routes();
+    

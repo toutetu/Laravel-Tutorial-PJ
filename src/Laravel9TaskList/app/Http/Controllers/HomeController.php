@@ -21,15 +21,10 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    /**
      * ホームページを表示する
-     *
-     * GET /
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
 
     public function index()
     {
@@ -47,6 +42,7 @@ class HomeController extends Controller
                 //   'id' => $folder->id,
                 'folder' => $folder->id,
             ]);
+            Log::info('ホームページを表示しました: ' . $e->getMessage());
         } catch (\Throwable $e) {
             Log::error('Error HomeController in index: ' . $e->getMessage());
         }

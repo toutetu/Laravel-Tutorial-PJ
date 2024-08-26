@@ -34,4 +34,8 @@
 
 
     </php>
+    <php>
+        <env name="COLUMNS" value="80"/>
+        <env name="LINES" value="25"/>
+    </php>
 </phpunit>

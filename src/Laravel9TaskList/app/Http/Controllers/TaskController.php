@@ -81,11 +81,13 @@ class TaskController extends Controller
             /* DBから取得した情報をViewに渡す */
             // view('遷移先のbladeファイル名', [連想配列：渡したい変数についての情報]);
             // 連想配列：['キー（テンプレート側で参照する際の変数名）' => '渡したい変数']
+            Log::channel('work')->info('タスクを表示しました: ' ,['user-id' => $user->id, 'user-name' => $user->name]);
             return view('tasks/index', [
                 'folders' => $folders,
                 "folder_id" =>  $folder->id,
                 'tasks' => $tasks
-            ]);
+            ]);    
+
         } catch (\Throwable $e) {
             Log::error('Error TaskController in index: ' . $e->getMessage());
         }
@@ -108,11 +110,15 @@ class TaskController extends Controller
             $user = Auth::user();
             //    $folder = $user->folders()->findOrFail($id);
             $folder = $user->folders()->findOrFail($folder->id);
+            
+            
+            Log::channel('work')->info('タスク作成ページを表示しました: ',['user-id' => $user->id, 'user-name' => $user->name]);
 
             return view('tasks/create', [
                 // 'folder_id' => $id
                 'folder_id' => $folder->id,
             ]);
+            
         } catch (\Throwable $e) {
             Log::error('Error TaskController in showCreateForm: ' . $e->getMessage());
         }

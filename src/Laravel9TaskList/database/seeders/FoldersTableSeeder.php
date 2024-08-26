@@ -29,8 +29,10 @@ class FoldersTableSeeder extends Seeder
             DB::table('folders')->insert([
                 // 配列$titlesの値をtitleに代入する
                 'title' => $title,
+                
                 // ユーザーIDを取得して user_id に代入する
                 'user_id' => $user->id,
+
                 // Carbonライブラリで現在の日時を取得してcreated_atに作成日として代入する
                 'created_at' => Carbon::now(),
                 /// Carbonライブラリで現在の日時を取得してupdated_atに更新日として代入する
