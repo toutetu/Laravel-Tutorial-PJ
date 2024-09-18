@@ -43,6 +43,17 @@ class HomeController extends Controller
                 'folder' => $folder->id,
             ]);
             Log::info('ホームページを表示しました: ' . $e->getMessage());
+            
+            $timestamp = now();
+        
+            Log::channel('database')->info('User Action', [
+                'user_id' => $userId,
+                'timestamp' => $timestamp,
+                // 'screen' => $screenName,
+                // 'action' => $actionDescription,
+            ]);
+        
+
         } catch (\Throwable $e) {
             Log::error('Error HomeController in index: ' . $e->getMessage());
         }

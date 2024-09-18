@@ -131,6 +131,11 @@ return [
             'path' => storage_path('logs/work.log'),
             'level' => 'info',
         ],
+        'database' => [
+            'driver' => 'custom',
+            'via' => danielme85\LaravelLogToDB\LogToDbHandler::class,
+            'name' => 'Basic DB Logging',
+        ],
 
     ],
 

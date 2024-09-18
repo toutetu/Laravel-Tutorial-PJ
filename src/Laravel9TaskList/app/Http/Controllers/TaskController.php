@@ -88,6 +88,13 @@ class TaskController extends Controller
                 'tasks' => $tasks
             ]);    
 
+            Log::channel('database')->info('User Action', [
+                'user_id' => $userId,
+                'timestamp' => $timestamp,
+                'screen' => $screenName,
+                'action' => $actionDescription,
+            ]);
+
         } catch (\Throwable $e) {
             Log::error('Error TaskController in index: ' . $e->getMessage());
         }
@@ -113,6 +120,16 @@ class TaskController extends Controller
             
             
             Log::channel('work')->info('タスク作成ページを表示しました: ',['user-id' => $user->id, 'user-name' => $user->name]);
+
+            $userId = Auth::id();
+            $timestamp = now();
+
+            Log::channel('database')->info('User Action', [
+                'user_id' => $userId,
+                'timestamp' => $timestamp,
+                // 'screen' => $screenName,
+                // 'action' => $actionDescription,
+            ]);
 
             return view('tasks/create', [
                 // 'folder_id' => $id

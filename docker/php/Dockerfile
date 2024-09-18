@@ -1,5 +1,5 @@
 # Dockerimage の指定
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 COPY php.ini /usr/local/etc/php/
 
 # Package & Library install

@@ -20,6 +20,7 @@ services:
       - app-network
 
   php:
+    image: php:8.1-fpm
     build: ./docker/php
     container_name: "php-fpm"
     environment:
