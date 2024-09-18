@@ -88,7 +88,10 @@ class Task extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['title', 'description', 'due_date', 'status'])
+            ->logOnly(['title', 
+                        'description',
+                         'due_date', 
+                         'status'])
             ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
     }
 }
