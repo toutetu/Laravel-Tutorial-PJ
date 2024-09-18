@@ -29,4 +29,9 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    //マイグレーションで特定のテーブルを除外
+    protected $commands = [
+        \App\Console\Commands\CustomMigrateFresh::class,
+    ];
 }

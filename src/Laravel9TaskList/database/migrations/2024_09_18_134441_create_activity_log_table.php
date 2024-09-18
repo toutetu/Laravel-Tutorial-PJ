@@ -8,6 +8,11 @@ class CreateActivityLogTable extends Migration
 {
     public function up()
     {
+        if (Schema::hasTable('activity_log')) {
+            return;
+        }
+        
+
         Schema::connection(config('activitylog.database_connection'))->create(config('activitylog.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('log_name')->nullable();
