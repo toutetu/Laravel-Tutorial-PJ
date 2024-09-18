@@ -5,9 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+//ログを記録する
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+// use Spatie\Activitylog\LogsActivityInterface;　不要かも？
+
+
 class Folder extends Model
 {
     use HasFactory;
+
+    //ログを記録する
+    //at the top of your file you should import the facade.
+    use LogsActivity    ;
 
 
     // テーブル名を明示的に指定する
@@ -25,4 +35,13 @@ class Folder extends Model
         // hasMany(モデル名, 関連するテーブルが持つ外部キーカラム名, hasManyが定義された外部キーに紐づけられたカラム)
         return $this->hasMany('App\Models\Task');
     }
+
+        //モデルでの自動記録:TaskモデルにLogsActivityトレイトを使用して、モデルイベントを自動的に記録
+        public function getActivitylogOptions(): LogOptions
+        {
+            return LogOptions::defaults()
+                ->logOnly(['title', 'description', 'due_date', 'status'])
+                ->setDescriptionForEvent(fn(string $eventName) => "フォルダーが{$eventName}されましたよ");
+        }
+
 }

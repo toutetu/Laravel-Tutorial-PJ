@@ -7,9 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 // Carbon ライブラリを名前空間でインポートする
 use Carbon\Carbon;
 
+
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+// use Spatie\Activitylog\LogsActivityInterface;　不要かも？
+
 class Task extends Model
 {
     use HasFactory;
+
+    //at the top of your file you should import the facade.
+    use LogsActivity    ;
 
     /**
      * ステータス（状態）定義
@@ -73,5 +82,13 @@ class Task extends Model
         // format()：書式を指定する関数
         return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
         ->format('Y/m/d');
+    }
+
+    //モデルでの自動記録:TaskモデルにLogsActivityトレイトを使用して、モデルイベントを自動的に記録
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'description', 'due_date', 'status'])
+            ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
     }
 }
