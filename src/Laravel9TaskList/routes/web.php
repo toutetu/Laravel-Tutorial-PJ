@@ -89,9 +89,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get("/folders/{folder}/tasks", [TaskController::class,"index"])->name("tasks.index");
 
 
-        /* folders new create page */
-        Route::get('/folders/create', [FolderController::class,"showCreateForm"])->name('folders.create');
-        Route::post('/folders/create', [FolderController::class,"create"]);
+        // /* folders new create page */
+        // Route::get('/folders/create', [FolderController::class,"showCreateForm"])->name('folders.create');
+        // Route::post('/folders/create', [FolderController::class,"create"]);
 
         /* folders new edit page */
         Route::get('/folders/{folder}/edit', [FolderController::class,"showEditForm"])->name('folders.edit');

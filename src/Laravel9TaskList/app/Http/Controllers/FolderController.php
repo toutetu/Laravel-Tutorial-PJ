@@ -35,7 +35,7 @@ class FolderController extends Controller
         try {
             /** @var App\Models\User **/
             $user = Auth::user();
-            $user->folders;
+            // $user->folders;
 
             // return view('folders/create', compact('folders'));
             return view('folders/create');
