@@ -41,7 +41,16 @@ class Folder extends Model
         {
             return LogOptions::defaults()
                 ->logOnly(['title', 'description', 'due_date', 'status'])
-                ->setDescriptionForEvent(fn(string $eventName) => "フォルダーが{$eventName}されましたよ");
-        }
-
+                // ->setDescriptionForEvent(fn(string $eventName) => "フォルダーが{$eventName}されました");
+                ->setDescriptionForEvent(function(string $eventName) {
+                    $eventTranslations = [
+                        'created' => '作成',
+                        'updated' => '更新',
+                        'deleted' => '削除',
+                        // 他のイベントに応じて追加
+                    ];
+                    $translatedEvent = $eventTranslations[$eventName] ?? $eventName;
+                    return "フォルダーが{$translatedEvent}されました";
+                });
+            }
 }

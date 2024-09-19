@@ -35,6 +35,5 @@ class RecordActivity
 
         return $next($request);
 
-        
     }
 }

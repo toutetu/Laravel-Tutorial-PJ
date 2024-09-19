@@ -92,6 +92,16 @@ class Task extends Model
                         'description',
                          'due_date', 
                          'status'])
-            ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
+            // ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
+            ->setDescriptionForEvent(function(string $eventName) {
+                $eventTranslations = [
+                    'created' => '作成',
+                    'updated' => '更新',
+                    'deleted' => '削除',
+                    // 他のイベントに応じて追加
+                ];
+                $translatedEvent = $eventTranslations[$eventName] ?? $eventName;
+                return "タスクが{$translatedEvent}されました";
+            });
     }
 }
