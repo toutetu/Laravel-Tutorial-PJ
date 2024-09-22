@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\LogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -119,6 +120,8 @@ Route::group(['middleware' => 'auth'], function() {
         // Route::post('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"delete"]);
         Route::post('/folders/{folder}/tasks/{task}/delete', [TaskController::class,"delete"]);
     });
+
+    Route::get('/log', [LogController::class,"showLog"])->name('log');
 });
 
     /* certification page （会員登録・ログイン・ログアウト・パスワード再設定など） */
