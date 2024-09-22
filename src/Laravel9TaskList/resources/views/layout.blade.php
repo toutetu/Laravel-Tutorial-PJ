@@ -25,7 +25,7 @@
                     <span class="my-navbar-item">ようこそ, {{ Auth::user()->name }}さん</span>
                     ｜
                     
-                    <a class="nav-link" href="{{ route('log') }}" class="my-navbar-item">アクティビティログ</a>
+                    <a href="{{ route('log') }}" class="my-navbar-item ml-10">アクティビティログ</a>
                     
                     <a href="#" id="logout" class="my-navbar-item">ログアウト</a>
                     <!-- ログアウトがクリックされた時にイベントスクリプトと処理を呼び出す -->
