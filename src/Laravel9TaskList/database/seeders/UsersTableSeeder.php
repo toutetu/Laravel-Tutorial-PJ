@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'dummy@email.com',
             // passwordに test1234 を代入する
             // bcrypt()：パスワードをハッシュ化する関数
-            'password' => bcrypt('test1234'),
+            'password' => bcrypt('123'),
             // 現在の日時を取得してcreated_atに作成日として代入する
             'created_at' => Carbon::now(),
             // 現在の日時を取得してupdated_atに更新日として代入する
