@@ -12,11 +12,13 @@ use Carbon\Carbon;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 // use Spatie\Activitylog\LogsActivityInterface;　不要かも？
+use Spatie\Activitylog\Models\Activity;
 
 class Task extends Model
 {
     use HasFactory;
-
+    
+    //ログを記録する
     //at the top of your file you should import the facade.
     use LogsActivity    ;
 
@@ -87,6 +89,7 @@ class Task extends Model
     //モデルでの自動記録:TaskモデルにLogsActivityトレイトを使用して、モデルイベントを自動的に記録
     public function getActivitylogOptions(): LogOptions
     {
+        Activity::all();
         return LogOptions::defaults()
             ->logOnly(['title', 
                         'description',
