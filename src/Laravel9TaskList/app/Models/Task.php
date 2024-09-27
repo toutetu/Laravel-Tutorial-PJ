@@ -14,6 +14,8 @@ use Spatie\Activitylog\LogOptions;
 // use Spatie\Activitylog\LogsActivityInterface;　不要かも？
 use Spatie\Activitylog\Models\Activity;
 
+use Illuminate\Support\Facades\Auth;
+
 class Task extends Model
 {
     use HasFactory;
@@ -96,6 +98,7 @@ class Task extends Model
                          'due_date', 
                          'status'])
             // ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
+            ->useLogName('task')
             ->setDescriptionForEvent(function(string $eventName) {
                 $eventTranslations = [
                     'created' => '作成',
@@ -104,7 +107,13 @@ class Task extends Model
                     // 他のイベントに応じて追加
                 ];
                 $translatedEvent = $eventTranslations[$eventName] ?? $eventName;
-                return "タスクが{$translatedEvent}されました";
-            });
-    }
+                $user = Auth::user();
+                $userName = $user ? $user->name : 'システム';
+                // return "タスクが{$translatedEvent}されました";
+                return "ユーザー {$userName} がタスクを{$translatedEvent}しました";
+                
+                })
+                ->logOnlyDirty()
+                ->dontSubmitEmptyLogs();
+            }
 }
