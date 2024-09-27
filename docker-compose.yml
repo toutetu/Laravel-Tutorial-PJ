@@ -10,7 +10,7 @@ services:
       MYSQL_PASSWORD: secret
       TZ: 'Asia/Tokyo'
     ports:
-      - 3308:3306  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
+      - 3306:3306  # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  # コマンドの指定
     volumes:
       - db_data_test:/var/lib/mysql  # 名前付きボリュームを設定する（名前付きボリューム:コンテナ側ボリュームの場所）
