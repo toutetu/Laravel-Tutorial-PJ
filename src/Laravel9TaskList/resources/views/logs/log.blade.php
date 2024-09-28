@@ -24,6 +24,7 @@
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
+                    <th>no</th>
                     <th>日時</th>
                     <th>ユーザー名</th>
                     <th>画面</th>
@@ -33,6 +34,7 @@
             <tbody>
                 @foreach($activities as $activity)
                 <tr>
+                    <td>{{ $activity->id}}</td>
                     <td>{{ $activity->created_at->format('Y/m/d H:i') }}</td>
                     <td>{{ $activity->causer ? $activity->causer->name : 'システム' }}</td>
                     <td>{{ $activity->properties['screen'] ?? 'N/A' }}</td>
