@@ -60,7 +60,6 @@
                     <div class="text-right">
                         {{-- <a href="{{ route('tasks.create', ['id' => $folder_id]) }}" class="btn btn-default btn-block"> --}}
                         <a href="{{ route('tasks.create', ['folder' => $folder_id]) }}" class="btn btn-default btn-block">
-                                タスクを追加する
                             タスクを追加する
                         </a>
                     </div>
