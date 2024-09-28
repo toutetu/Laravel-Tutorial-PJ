@@ -37,7 +37,8 @@
                     <td>{{ $activity->id}}</td>
                     <td>{{ $activity->created_at->format('Y/m/d H:i') }}</td>
                     <td>{{ $activity->causer ? $activity->causer->name : 'システム' }}</td>
-                    <td>{{ $activity->properties['screen'] ?? 'N/A' }}</td>
+                    {{-- <td>{{ $activity->screen}}</td> --}}
+                    <td>{{ $activity->log_name}}</td>
                     <td>{{ $activity->description }}</td>
                 </tr>
                 @endforeach

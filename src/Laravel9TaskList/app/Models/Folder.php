@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 //ログを記録する
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 // use Spatie\Activitylog\LogsActivityInterface;　不要かも？
+use Spatie\Activitylog\Models\Activity;
 
+use Illuminate\Support\Facades\Auth;
 
 class Folder extends Model
 {
@@ -38,19 +40,37 @@ class Folder extends Model
 
         //モデルでの自動記録:TaskモデルにLogsActivityトレイトを使用して、モデルイベントを自動的に記録
         public function getActivitylogOptions(): LogOptions
-        {
-            return LogOptions::defaults()
-                ->logOnly(['title', 'description', 'due_date', 'status'])
-                // ->setDescriptionForEvent(fn(string $eventName) => "フォルダーが{$eventName}されました");
-                ->setDescriptionForEvent(function(string $eventName) {
-                    $eventTranslations = [
-                        'created' => '作成',
-                        'updated' => '更新',
-                        'deleted' => '削除',
-                        // 他のイベントに応じて追加
-                    ];
-                    $translatedEvent = $eventTranslations[$eventName] ?? $eventName;
-                    return "フォルダーが{$translatedEvent}されました";
-                });
+    {
+        try {
+                // Activity::all();
+                return LogOptions::defaults()
+                    ->logOnly(['title', 
+                                // 'description',
+                                //  'status'
+                                ])
+                    // ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
+                    ->useLogName('フォルダー')
+                    ->setDescriptionForEvent(function(string $eventName) {
+                        $eventTranslations = [
+                            'created' => '作成',
+                            'updated' => '更新',
+                            'deleted' => '削除',
+                            // 他のイベントに応じて追加
+                        ];
+                        $translatedEvent = $eventTranslations[$eventName] ?? $eventName;
+                        $user = Auth::user();
+                        $userName = $user ? $user->name : 'システム';
+                        // return "タスクが{$translatedEvent}されました";
+                        return "ユーザー {$userName} がフォルダーを{$translatedEvent}しました";
+                        
+                        })
+                        ->logOnlyDirty() //変更されたフィールドのみをログに記録
+                        ->dontSubmitEmptyLogs(); //空のログを提出しない
+
+            } catch (\Exception $e) {
+                \Log::error('Activity logging error in Folder model: ' . $e->getMessage());
+                return LogOptions::defaults()->dontLogAnything();
             }
+            
+    }
 }

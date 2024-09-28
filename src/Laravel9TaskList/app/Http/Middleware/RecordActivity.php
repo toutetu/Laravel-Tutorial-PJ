@@ -41,6 +41,7 @@ class RecordActivity
                             'method' => $request->method(),
                             'ip' => $request->ip(),
                             'agent' => $request->userAgent(),
+                            'screen' => "テスト"
                             ])
             ->log($description);
 

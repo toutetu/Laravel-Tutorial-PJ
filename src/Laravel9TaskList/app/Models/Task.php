@@ -91,14 +91,14 @@ class Task extends Model
     //モデルでの自動記録:TaskモデルにLogsActivityトレイトを使用して、モデルイベントを自動的に記録
     public function getActivitylogOptions(): LogOptions
     {
-        Activity::all();
+        // Activity::all();
         return LogOptions::defaults()
             ->logOnly(['title', 
-                        'description',
+                        // 'description',
                          'due_date', 
                          'status'])
             // ->setDescriptionForEvent(fn(string $eventName) => "タスクが{$eventName}されましたよ");
-            ->useLogName('task')
+            ->useLogName('タスク')
             ->setDescriptionForEvent(function(string $eventName) {
                 $eventTranslations = [
                     'created' => '作成',
@@ -113,7 +113,7 @@ class Task extends Model
                 return "ユーザー {$userName} がタスクを{$translatedEvent}しました";
                 
                 })
-                ->logOnlyDirty()
-                ->dontSubmitEmptyLogs();
+                ->logOnlyDirty() //変更されたフィールドのみをログに記録
+                ->dontSubmitEmptyLogs(); //空のログを提出しない
             }
 }

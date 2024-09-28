@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use App\Providers\RouteServiceProvider; // 追加
+use Illuminate\Http\Request;
 
 //ログを記録する
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-use Illuminate\Http\Request;
-use Spatie\Activitylog\Facades\Activity;
-
+// use Spatie\Activitylog\Facades\Activity;
+use Spatie\Activitylog\Models\Activity;
 
 class LoginController extends Controller
 {
@@ -68,12 +68,24 @@ class LoginController extends Controller
     }
     protected function authenticated(Request $request, $user)
     {
-        activity()->log("ユーザー {$user->name} がログインしました");
+        activity()
+        ->withProperties(['log_name' => 'ログイン'])
+        ->tap(function(Activity $activity) {
+            $activity->log_name = 'ログイン';
+         })
+        ->log("ユーザー {$user->name} がログインしました")
+        ;
     }
 
     protected function loggedOut(Request $request)
     {
-        activity()->log("ユーザー がログアウトしました");
+        activity()
+        ->withProperties(['log_name' => 'ログイン'])
+        ->tap(function(Activity $activity) {
+            $activity->log_name = 'ログイン';
+         })
+        ->log("ユーザー がログアウトしました")
+        ;
     }
 
     

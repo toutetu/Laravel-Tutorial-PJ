@@ -22,7 +22,7 @@ class FoldersTableSeeder extends Seeder
         $user = DB::table('users')->first();
 
         /* テストデータを3つ作成する */
-        $titles = ['プライベート', '仕事', '旅行'];
+        $titles = ['遊び', '仕事', '旅行','子育て','ユニバ','ハリポタ',];
         // 上記のタイトルでテーブル行を3つ挿入するループを実行する
         foreach ($titles as $title) {
             // foldersテーブルにアクセスして行を挿入する
